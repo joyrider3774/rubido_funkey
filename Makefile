@@ -18,7 +18,9 @@ LDLIBS ?=  `$(SDLCONFIG) --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_g
 #MINGW does not have X11 and does not require it
 #dont know about cygwin
 ifneq ($(OS),Windows_NT)
+ifeq ($(NOX11),)
 LDLIBS += -lX11
+endif
 endif
 
 
