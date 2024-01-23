@@ -11,8 +11,8 @@ SDLCONFIG ?= sdl-config
 DESTDIR ?=
 PREFIX ?= /usr
 OPT_LEVEL ?= -O2 
-CFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra `$(SDLCONFIG) --cflags`
-LDFLAGS ?=  `$(SDLCONFIG) --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
+CFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra
+LDFLAGS ?=  -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
 
 #MINGW does not have X11 and does not require it
 #dont know about cygwin
@@ -29,6 +29,9 @@ endif
 ifdef TARGET
 include $(TARGET).mk
 endif
+
+CFLAGS += `$(SDLCONFIG) --cflags`
+LDFLAGS += `$(SDLCONFIG) --libs`
 
 .PHONY: all clean
 
