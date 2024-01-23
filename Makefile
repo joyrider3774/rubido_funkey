@@ -2,16 +2,16 @@ SRC_DIR = src
 OBJ_DIR = ./obj
 EXE=rubido
 
-SRC=$(wildcard *.c $(foreach fd, $(SRC_DIR), $(fd)/*.c)) 
-OBJS=$(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+SRC=$(wildcard *.c $(foreach fd, $(SRC_DIR), $(fd)/*.cpp)) 
+OBJS=$(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 
 
-CC ?= gcc
+CXX ?= g++
 SDLCONFIG ?= sdl-config
 DESTDIR ?=
 PREFIX ?= /usr
 OPT_LEVEL ?= -O2 
-CFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra
+CXXFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra
 LDFLAGS ?=  -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
 
 #MINGW does not have X11 and does not require it
@@ -23,14 +23,14 @@ endif
 endif
 
 ifdef DEBUG
-CFLAGS += -g
+CXXFLAGS += -g
 endif
 
 ifdef TARGET
 include $(TARGET).mk
 endif
 
-CFLAGS += `$(SDLCONFIG) --cflags`
+CXXFLAGS += `$(SDLCONFIG) --cflags`
 LDFLAGS += `$(SDLCONFIG) --libs`
 
 .PHONY: all clean
@@ -38,11 +38,11 @@ LDFLAGS += `$(SDLCONFIG) --libs`
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	$(CC) $(CFLAGS) $(TARGET_ARCH) $^ $(LDFLAGS) -o $@ 
+	$(CXX) $(CXXFLAGS) $(TARGET_ARCH) $^ $(LDFLAGS) -o $@ 
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.cpp
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $@
