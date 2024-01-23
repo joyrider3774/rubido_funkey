@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Rubido
+Comment=A Chinese checkers board game
+Terminal=false
+Type=Application
+Exec=rubido.elf
+Icon=filesystem/icon
+Categories=games

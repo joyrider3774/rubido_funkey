@@ -12,24 +12,30 @@ DESTDIR ?=
 PREFIX ?= /usr
 OPT_LEVEL ?= -O2 
 CFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra `$(SDLCONFIG) --cflags`
-LDFLAGS ?= 
-LDLIBS ?=  `$(SDLCONFIG) --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
+LDFLAGS ?=  `$(SDLCONFIG) --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
 
 #MINGW does not have X11 and does not require it
 #dont know about cygwin
 ifneq ($(OS),Windows_NT)
 ifeq ($(NOX11),)
-LDLIBS += -lX11
+LDFLAGS += -lX11
 endif
 endif
 
+ifdef DEBUG
+CFLAGS += -g
+endif
+
+ifdef TARGET
+include $(TARGET).mk
+endif
 
 .PHONY: all clean
 
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	$(CC) $(LDFLAGS) $(TARGET_ARCH) $^ $(LDLIBS) -o $@ 
+	$(CC) $(CFLAGS) $(TARGET_ARCH) $^ $(LDFLAGS) -o $@ 
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(@D)
