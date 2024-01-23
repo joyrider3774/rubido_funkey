@@ -8,13 +8,50 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_gfxPrimitives.h>
-#include <SDL/SDL_rotozoom.h>
+#include <SDL/SDL_framerate.h>
 #include "cboardparts.h"
 #include "cmainmenu.h"
 #include "cpeg.h"
 #include "cselector.h"
 #include "commonvars.h"
 
+
+// Load the settings, if there isn't a settings file, set some initial values
+void LoadSettings()
+{
+ 	FILE *SettingsFile;
+ 	SettingsFile = fopen("./settings.dat","r");
+ 	if(SettingsFile)
+ 	{
+		fscanf(SettingsFile,"Best0=%d\n",&BestPegsLeft[VeryEasy]);
+		fscanf(SettingsFile,"Best1=%d\n",&BestPegsLeft[Easy]);
+		fscanf(SettingsFile,"Best2=%d\n",&BestPegsLeft[Hard]);
+		fscanf(SettingsFile,"Best3=%d\n",&BestPegsLeft[VeryHard]);
+		fclose(SettingsFile);
+ 	}
+ 	else
+ 	{
+		BestPegsLeft[VeryEasy] = 0;
+		BestPegsLeft[Easy] = 0;
+		BestPegsLeft[Hard] = 0;
+		BestPegsLeft[VeryHard] = 0;
+	}
+}
+
+// Save the settings
+void SaveSettings()
+{
+ 	FILE *SettingsFile;
+ 	SettingsFile = fopen("./settings.dat","w");
+ 	if(SettingsFile)
+ 	{
+		fprintf(SettingsFile,"Best0=%d\n",BestPegsLeft[VeryEasy]);
+		fprintf(SettingsFile,"Best1=%d\n",BestPegsLeft[Easy]);
+		fprintf(SettingsFile,"Best2=%d\n",BestPegsLeft[Hard]);
+		fprintf(SettingsFile,"Best3=%d\n",BestPegsLeft[VeryHard]);
+		fclose(SettingsFile);
+ 	}
+}
 
 // procedure i made to draw some text on the screen
 void WriteText(SDL_Surface* Surface,TTF_Font* FontIn,char* Tekst,int NrOfChars,int X,int Y,int YSpacing,SDL_Color ColorIn)
@@ -115,24 +152,7 @@ int PegsLeft()
 void PrintForm(char *msg)
 {
 	PrintFormShown = true;
-    SDL_Event Event;
-    char Msg[300];
     SDL_Color Color = {0,0,0,0};
-    SDL_Color Color1 ={0,0,0,0};
-    SDL_PollEvent(&Event);
-	SDL_BlitSurface(IMGBackground,NULL,Buffer,NULL);
-    sprintf(Msg,"Moves Left:%d",MovesLeft());
-    WriteText(Buffer,font,Msg,strlen(Msg),163,163,0,Color1);
-    sprintf(Msg,"Moves:%d",Moves);
-    WriteText(Buffer,font,Msg,strlen(Msg),163,179,0,Color1);
-    sprintf(Msg,"Pegs Left:%d",PegsLeft());
-    WriteText(Buffer,font,Msg,strlen(Msg),163,195,0,Color1);
-    if (BestPegsLeft[Difficulty] != 0)
-    {
-        sprintf(Msg,"Best Pegs:%d",BestPegsLeft[Difficulty]);
-        WriteText(Buffer,font,Msg,strlen(Msg),163,211,0,Color1);
-    }
-	CBoardParts_Draw(BoardParts,Buffer);
 	boxRGBA(Buffer,16,80,221,160,255,255,255,255);
 	rectangleRGBA(Buffer,16,80,221,160,0,0,0,255);
 	rectangleRGBA(Buffer,17,81,220,159,0,0,0,255);
@@ -332,24 +352,20 @@ void Game()
 	}
     SDL_Event Event;
     SDL_Color Color1 = {0,0,0,255};
-    //char debug[100];
     char Msg[300];
     
     SDL_BlitSurface(IMGBackground,NULL,Buffer,NULL);
-	// sprintf(debug,"fps : %d",fps);
-	// WriteText(Buffer,font,debug,strlen(debug),0,0,0,Color1);
-
 	// Write some info to the Buffer
 	sprintf(Msg,"Moves Left:%d",MovesLeft());
-    WriteText(Buffer,font,Msg,strlen(Msg),163,163,0,Color1);
+    WriteText(Buffer,font,Msg,strlen(Msg),161,163,0,Color1);
     sprintf(Msg,"Moves:%d",Moves);
-    WriteText(Buffer,font,Msg,strlen(Msg),163,179,0,Color1);
+    WriteText(Buffer,font,Msg,strlen(Msg),161,179,0,Color1);
     sprintf(Msg,"Pegs Left:%d",PegsLeft());
-    WriteText(Buffer,font,Msg,strlen(Msg),163,195,0,Color1);
+    WriteText(Buffer,font,Msg,strlen(Msg),161,195,0,Color1);
     if (BestPegsLeft[Difficulty] != 0)
     {
         sprintf(Msg,"Best Pegs:%d",BestPegsLeft[Difficulty]);
-        WriteText(Buffer,font,Msg,strlen(Msg),163,211,0,Color1);
+        WriteText(Buffer,font,Msg,strlen(Msg),161,211,0,Color1);
     }
 	CBoardParts_Draw(BoardParts,Buffer);
 	CSelector_Draw(GameSelector, Buffer);
@@ -406,6 +422,7 @@ void Game()
 				case SDLK_ESCAPE: // select = quit to title
 					Mix_HaltChannel(-1);
 					GameState = GSTitleScreenInit;
+					PrintFormShown = false;
 					break;
 				case SDLK_x:
 					if(PrintFormShown)
@@ -653,44 +670,6 @@ void DifficultySelect()
 	}
 }
 
-// Load the settings, if there isn't a settings file, set some initial values
-void LoadSettings()
-{
- 	FILE *SettingsFile;
- 	SettingsFile = fopen("./settings.dat","r");
- 	if(SettingsFile)
- 	{
-		printf("bleh");
-		fscanf(SettingsFile,"Best0=%d\n",&BestPegsLeft[VeryEasy]);
-		fscanf(SettingsFile,"Best1=%d\n",&BestPegsLeft[Easy]);
-		fscanf(SettingsFile,"Best2=%d\n",&BestPegsLeft[Hard]);
-		fscanf(SettingsFile,"Best3=%d\n",&BestPegsLeft[VeryHard]);
-		fclose(SettingsFile);
- 	}
- 	else
- 	{
-		BestPegsLeft[VeryEasy] = 0;
-		BestPegsLeft[Easy] = 0;
-		BestPegsLeft[Hard] = 0;
-		BestPegsLeft[VeryHard] = 0;
-	}
-}
-
-// Save the settings
-void SaveSettings()
-{
- 	FILE *SettingsFile;
- 	SettingsFile = fopen("./settings.dat","w");
- 	if(SettingsFile)
- 	{
-		fprintf(SettingsFile,"Best0=%d\n",BestPegsLeft[VeryEasy]);
-		fprintf(SettingsFile,"Best1=%d\n",BestPegsLeft[Easy]);
-		fprintf(SettingsFile,"Best2=%d\n",BestPegsLeft[Hard]);
-		fprintf(SettingsFile,"Best3=%d\n",BestPegsLeft[VeryHard]);
-		fclose(SettingsFile);
- 	}
-}
-
 //Main Credits loop, will just show an image and wait for a button to be pressed
 void Credits()
 {
@@ -735,7 +714,7 @@ int main(int argv, char** args)
 				printf("Succesfully Created %dx%dx32 Buffer\n", WINDOW_WIDTH, WINDOW_HEIGHT);
 				SDL_ShowCursor(SDL_DISABLE);
 				{
-					if (Mix_OpenAudio(22050,AUDIO_S16,MIX_DEFAULT_CHANNELS,1024) < 0)
+					if (Mix_OpenAudio(44100,AUDIO_S16,MIX_DEFAULT_CHANNELS,1024) < 0)
 					{
 						GlobalSoundEnabled = false;
 						printf("Failed to initialise sound!\n");
@@ -758,6 +737,8 @@ int main(int argv, char** args)
 							LoadSounds();
 							LoadGraphics();
 							LoadSettings();
+							SDL_initFramerate(&FpsManager);
+							SDL_setFramerate(&FpsManager, 30);
 							// Main game loop that loops untile the gamestate = GSQuit
 							// and calls the procedure according to the gamestate.
 							while (GameState != GSQuit)
@@ -783,11 +764,9 @@ int main(int argv, char** args)
 									default:
 										break;
 								}
-								//SDL_FillRect(Buffer, NULL, SDL_MapRGBA(Buffer->format, 0,0,0,255));
-								//SDL_Surface *Tmp = rotozoomSurfaceXY(Buffer, 0, 240.0f/320.0f, 1.0f, 1);
 								SDL_BlitSurface(Buffer, NULL, Screen, NULL);								
 								SDL_Flip(Screen);
-								//SDL_FreeSurface(Tmp);
+								SDL_framerateDelay(&FpsManager);
 							}
 							CMainMenu_Destroy(Menu);
 							CBoardParts_Destroy(BoardParts);

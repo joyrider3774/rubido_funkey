@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_Mixer.h>
 #include <SDL_ttf.h>
+#include <SDL_framerate.h>
 #include <stdbool.h>
 #include "cselector.h"
 #include "cmainmenu.h"
@@ -66,6 +67,7 @@ extern SDL_Surface *Screen; // the screen and buffer surface, buffer is used sin
 extern SDL_Surface *Buffer;
 extern int Moves,Volume;
 extern int BestPegsLeft[4]; // array that holds the best amount of pegs left for each difficulty
+extern FPSmanager FpsManager;
 
 //game
 extern CSelector *GameSelector;

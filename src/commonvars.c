@@ -2,6 +2,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <stdbool.h>
+#include <SDL_framerate.h>
 #include "commonvars.h"
 #include "cboardparts.h"
 #include "cselector.h"
@@ -21,6 +22,7 @@ SDL_Surface *Screen; // the screen and buffer surface, buffer is used since hard
 SDL_Surface *Buffer;
 int Moves=0,Volume = 128;
 int BestPegsLeft[4]; // array that holds the best amount of pegs left for each difficulty
+FPSmanager FpsManager;
 
 //game
 CSelector *GameSelector;
