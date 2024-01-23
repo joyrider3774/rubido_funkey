@@ -381,7 +381,7 @@ void Game()
 		}
 		else // show the loser messager, play loser sound
 		{
-			sprintf(Msg,"You could'nt solve the puzzle!\nDon't give up, try it again!\n\nPress (A) to continue");
+			sprintf(Msg,"You couldn't solve the puzzle!\nDon't give up, try it again!\n\nPress (A) to continue");
 			PrintForm(Msg); 
 		}
 	}
