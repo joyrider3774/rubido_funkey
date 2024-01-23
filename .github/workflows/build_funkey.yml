@@ -25,7 +25,7 @@ jobs:
       - name: Build Game
         run: |
           export TMPPREFIX=FunKey-sdk-2.3.0/arm-funkey-linux-musleabihf/sysroot/usr
-          make "CXX=FunKey-sdk-2.3.0/bin/arm-linux-g++" "PREFIX=$TMPPREFIX" "TARGET=funkey"
+          make "TARGET=funkey" "CXX=FunKey-sdk-2.3.0/bin/arm-linux-g++" "PREFIX=$TMPPREFIX" "NOX11=1"
       
       - name: package opk
         env:

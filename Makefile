@@ -12,7 +12,7 @@ SDLCONFIG ?= sdl-config
 DESTDIR ?=
 PREFIX ?= /usr
 OPT_LEVEL ?= -O2 
-CXXFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra -I$(PREFIX)/include
+CXXFLAGS ?= -g -Wall -Wextra -I$(PREFIX)/include
 LDFLAGS ?= -L$(PREFIX)/lib -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
 
 #MINGW does not have X11 and does not require it
