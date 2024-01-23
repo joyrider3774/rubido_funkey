@@ -15,14 +15,6 @@ OPT_LEVEL ?= -O2
 CXXFLAGS ?= -g -Wall -Wextra -I$(PREFIX)/include
 LDFLAGS ?= -L$(PREFIX)/lib -lSDL_image -lSDL_ttf -lSDL_mixer -lmikmod -lSDL_gfx -lm
 
-#MINGW does not have X11 and does not require it
-#dont know about cygwin
-ifneq ($(OS),Windows_NT)
-ifeq ($(NOX11),)
-LDFLAGS += -lX11
-endif
-endif
-
 ifdef DEBUG
 CXXFLAGS += -g
 endif
