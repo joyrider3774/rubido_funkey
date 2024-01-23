@@ -396,22 +396,30 @@ void Game()
 		{
 			switch(Event.key.keysym.sym)
 			{
+				case SDLK_q:
+					GameState = GSQuit;
+					break;
+				case SDLK_l:
 				case SDLK_LEFT: // move the selector to the left io currentposition.x - 1
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X -1,CSelector_GetPosition(GameSelector).Y);
 					break;
+				case SDLK_r:
 				case SDLK_RIGHT:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X +1,CSelector_GetPosition(GameSelector).Y);
 					break;
+				case SDLK_u:
 				case SDLK_UP:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X,CSelector_GetPosition(GameSelector).Y-1);
 					break;
+				case SDLK_d:
 				case SDLK_DOWN:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X,CSelector_GetPosition(GameSelector).Y+1);
 					break;
+				case SDLK_b:
 				case SDLK_c: // deselect selection
 					if (!PrintFormShown && GameSelector->HasSelection)
 					{
@@ -419,11 +427,13 @@ void Game()
 						CSelector_DeSelect(GameSelector);
 					}
 					break;
+				case SDLK_s:
 				case SDLK_ESCAPE: // select = quit to title
 					Mix_HaltChannel(-1);
 					GameState = GSTitleScreenInit;
 					PrintFormShown = false;
 					break;
+				case SDLK_a:
 				case SDLK_x:
 					if(PrintFormShown)
 					{
@@ -531,12 +541,18 @@ void TitleScreen()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
+				case SDLK_q:
+					GameState = GSQuit;
+					break;
+				case SDLK_d:
 				case SDLK_DOWN:
 					CMainMenu_NextItem(Menu);
 					break;
+				case SDLK_u:
 				case SDLK_UP:
 					CMainMenu_PreviousItem(Menu);
 					break;
+				case SDLK_a:
 				case SDLK_x:
 					// set the gamestate according to the menu selection
 					Mix_PlayChannel(-1,Sounds[SND_GOOD],0);
@@ -587,12 +603,18 @@ void DifficultySelect()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
+				case SDLK_q:
+					GameState = GSQuit;
+					break;
+				case SDLK_s:
 				case SDLK_ESCAPE:
 					GameState = GSTitleScreenInit;
 					break;
+				case SDLK_a:
 				case SDLK_x:
 					GameState = GSGameInit;
 					break;
+				case SDLK_l:
 				case SDLK_LEFT: // Change difficluly one lower if we pressed left
 					if(Difficulty == VeryHard)
 					{
@@ -612,6 +634,7 @@ void DifficultySelect()
 								if(Difficulty == VeryEasy)
 									Difficulty = VeryHard;
 					break;
+				case SDLK_r:
 				case SDLK_RIGHT: // change difficulty one higher
 					if(Difficulty == VeryEasy)
 					{
@@ -683,6 +706,11 @@ void Credits()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
+				case SDLK_q:
+					GameState = GSQuit;
+					break;
+				case SDLK_a:
+				case SDLK_b:
 				case SDLK_c:
 				case SDLK_x:
 					GameState = GSTitleScreenInit;
