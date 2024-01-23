@@ -7,12 +7,13 @@ OBJS=$(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 
 
 CXX ?= g++
+PREFIX ?=/usr
 SDLCONFIG ?= sdl-config
 DESTDIR ?=
 PREFIX ?= /usr
 OPT_LEVEL ?= -O2 
-CXXFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra
-LDFLAGS ?=  -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
+CXXFLAGS ?= -g -DWIN32 -DSHOW_FPS -Wall -Wextra -I$(PREFIX)/include
+LDFLAGS ?= -L$(PREFIX)/lib -lSDL_image -lSDL_ttf -lSDL_mixer -lSDL -lSDL_gfx -lm
 
 #MINGW does not have X11 and does not require it
 #dont know about cygwin
