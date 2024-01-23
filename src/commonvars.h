@@ -2,7 +2,7 @@
 #define COMMONVARS_H
 
 #include <SDL.h>
-#include <SDL_Mixer.h>
+#include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include <SDL_framerate.h>
 #include <stdbool.h>
