@@ -730,7 +730,7 @@ int main(int argv, char** args)
 		printf("SDL Succesfully initialized\n");
 		Uint32 flags = SDL_HWSURFACE;
 		#ifdef FUNKEY
-			flags | SDL_FULLSCREEN;
+			flags |= SDL_FULLSCREEN;
 		#endif
         Screen = SDL_SetVideoMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32, flags);
 		if(Screen)
