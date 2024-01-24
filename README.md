@@ -44,6 +44,7 @@ The game will restart with the next source folder and remember which source fold
 | Dpad | Select menu's or difficulties. During gameplay move the peg selector around. |
 | A | Confirm in menu and difficulty selector. During gameplay activate the peg where the peg selector is. If there was a peg already selected it will deselect it |
 | B | During gameplay deselect the currently selected peg |
+| Start Button | Return to Title Screen |
 | Menu button | Quit Game |
 
 ## Credits
