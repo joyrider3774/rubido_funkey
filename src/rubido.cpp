@@ -19,8 +19,22 @@
 // Load the settings, if there isn't a settings file, set some initial values
 void LoadSettings()
 {
+	char Filename[4096];
+
+	const char *File = ".com.github.joyrider377.formula1_funkey.dat";
+	char *EnvHome = getenv("HOME");
+	char *EnvHomeDrive = getenv("HOMEDRIVE");
+	char *EnvHomePath = getenv("HOMEPATH");
+
+	sprintf(Filename, "%s", File);
+	if (EnvHome) //linux systems normally
+		sprintf(Filename, "%s/%s", EnvHome, File);
+	else
+		if(EnvHomeDrive && EnvHomePath) //windows systems normally
+			sprintf(Filename, "%s%s/%s", EnvHomeDrive, EnvHomePath, File);
+
  	FILE *SettingsFile;
- 	SettingsFile = fopen("./settings.dat","r");
+ 	SettingsFile = fopen(Filename,"r");
  	if(SettingsFile)
  	{
 		fscanf(SettingsFile,"Best0=%d\n",&BestPegsLeft[VeryEasy]);
@@ -41,8 +55,22 @@ void LoadSettings()
 // Save the settings
 void SaveSettings()
 {
+	char Filename[4096];
+
+	const char *File = ".com.github.joyrider377.formula1_funkey.dat";
+	char *EnvHome = getenv("HOME");
+	char *EnvHomeDrive = getenv("HOMEDRIVE");
+	char *EnvHomePath = getenv("HOMEPATH");
+
+	sprintf(Filename, "%s", File);
+	if (EnvHome) //linux systems normally
+		sprintf(Filename, "%s/%s", EnvHome, File);
+	else
+		if(EnvHomeDrive && EnvHomePath) //windows systems normally
+			sprintf(Filename, "%s%s/%s", EnvHomeDrive, EnvHomePath, File);
+
  	FILE *SettingsFile;
- 	SettingsFile = fopen("./settings.dat","w");
+ 	SettingsFile = fopen(Filename,"w");
  	if(SettingsFile)
  	{
 		fprintf(SettingsFile,"Best0=%d\n",BestPegsLeft[VeryEasy]);
