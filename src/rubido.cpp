@@ -21,7 +21,7 @@ void LoadSettings()
 {
 	char Filename[4096];
 
-	const char *File = ".com.github.joyrider377.formula1_funkey.dat";
+	const char *File = ".com.github.joyrider377.rubido_funkey.dat";
 	char *EnvHome = getenv("HOME");
 	char *EnvHomeDrive = getenv("HOMEDRIVE");
 	char *EnvHomePath = getenv("HOMEPATH");
@@ -57,7 +57,7 @@ void SaveSettings()
 {
 	char Filename[4096];
 
-	const char *File = ".com.github.joyrider377.formula1_funkey.dat";
+	const char *File = ".com.github.joyrider377.rubido_funkey.dat";
 	char *EnvHome = getenv("HOME");
 	char *EnvHomeDrive = getenv("HOMEDRIVE");
 	char *EnvHomePath = getenv("HOMEPATH");
