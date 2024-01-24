@@ -11,8 +11,8 @@ PREFIX ?=/usr
 SDLCONFIG ?= sdl-config
 DESTDIR ?=
 PREFIX ?= /usr
-CXXFLAGS ?= -Os -Wall -Wextra -I$(PREFIX)/include
-LDFLAGS ?= -L$(PREFIX)/lib -lSDL_image -lSDL_ttf -lSDL_mixer -lmikmod -lSDL_gfx -lm
+CXXFLAGS ?= -Os -Wall -Wextra
+LDFLAGS ?= -lSDL_image -lSDL_ttf -lSDL_mixer -lmikmod -lSDL_gfx -lm
 
 ifdef DEBUG
 CXXFLAGS += -g
