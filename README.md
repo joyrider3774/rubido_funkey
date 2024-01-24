@@ -1,7 +1,8 @@
 # Rubido Funkey-s Version
 ![DownloadCountTotal](https://img.shields.io/github/downloads/joyrider3774/rubido_funkey/total?label=total%20downloads&style=plastic) ![DownloadCountLatest](https://img.shields.io/github/downloads/joyrider3774/rubido_funkey/latest/total?style=plastic) ![LatestVersion](https://img.shields.io/github/v/tag/joyrider3774/rubido_funkey?label=Latest%20version&style=plastic) ![License](https://img.shields.io/github/license/joyrider3774/rubido_funkey?style=plastic)
 
-![screenshot 1](metadata/screenshots/screenshot1.png)  ![screenshot 2](metadata/screenshots/screenshot2.png) ![screenshot 3](metadata/screenshots/screenshot3.png)  ![screenshot 4](metadata/screenshots/screenshot4.png)
+![screenshot 2](metadata/screenshots/screenshot2.png) ![screenshot 3](metadata/screenshots/screenshot3.png)  ![screenshot 4](metadata/screenshots/screenshot4.png)
+![screenshot 1](metadata/screenshots/screenshot1.png) 
 
 Rubido is a little chinese checkers or solitaire game with four difficulties.
 
