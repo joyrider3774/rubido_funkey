@@ -11,7 +11,7 @@ Rubido is a little chinese checkers or solitaire game with four difficulties.
 - Saves best results
 
 ## Playing the Game:
-The aim of the game in chinese checkers is to select a (white) peg on the board and jump over another (white) peg to land on an empty (black) spot. When doing this the peg you jumped over will be removed from the board.
+The aim of the game in chinese checkers is to select a (blue) peg on the board and jump over another (Red) peg to land on an empty (black) spot. When doing this the peg you jumped over will be removed from the board.
 You need to play the game in such a way that only one peg remains on the board at the end. Depending on the difficulty you had chosen this can be either (only) in the middle of the board or anywhere on the board.
 Also depending on the difficulty you had chosen you can either jump horizontally and veritically over pegs or diagonally as well.
 
