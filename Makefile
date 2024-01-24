@@ -10,7 +10,6 @@ CXX ?= g++
 PREFIX ?=/usr
 SDLCONFIG ?= sdl-config
 DESTDIR ?=
-PREFIX ?= /usr
 CXXFLAGS ?= -Os -Wall -Wextra
 LDFLAGS ?= -lSDL_image -lSDL_ttf -lSDL_mixer -lmikmod -lSDL_gfx -lm
 
