@@ -2,14 +2,12 @@ SRC_DIR = src
 OBJ_DIR = ./obj
 EXE=rubido
 
-SRC=$(wildcard *.c $(foreach fd, $(SRC_DIR), $(fd)/*.cpp)) 
+SRC=$(wildcard *.cpp $(foreach fd, $(SRC_DIR), $(fd)/*.cpp)) 
 OBJS=$(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 
 
 CXX ?= g++
-PREFIX ?=/usr
 SDLCONFIG ?= sdl-config
-DESTDIR ?=
 CXXFLAGS ?= -Os -Wall -Wextra
 LDFLAGS ?= -lSDL_image -lSDL_ttf -lSDL_mixer -lmikmod -lSDL_gfx -lm
 
