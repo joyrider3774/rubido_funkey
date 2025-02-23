@@ -47,6 +47,11 @@ The game will restart with the next source folder and remember which source fold
 | Start Button | Return to Title Screen |
 | Menu button | Quit Game |
 
+## Preview for retrofe 
+![preview](metadata/rubido-preview.png)
+
+- Created by me but based on style made from other images by TommyShots from funkey discord
+
 ## Credits
 
 Graphcis are made by me willems davy aka joyrider3774 using gimp, based on the colored graphics i had created for the gp2x version, more than a decade ago.
