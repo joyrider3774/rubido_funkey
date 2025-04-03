@@ -8,6 +8,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_gfxPrimitives.h>
+#include <SDL_rotozoom.h>
 #include <SDL_framerate.h>
 #include "cboardparts.h"
 #include "cmainmenu.h"
@@ -424,45 +425,38 @@ void Game()
 		{
 			switch(Event.key.keysym.sym)
 			{
-				case SDLK_q:
+				case KEY_QUIT:
 					GameState = GSQuit;
 					break;
-				case SDLK_l:
-				case SDLK_LEFT: // move the selector to the left io currentposition.x - 1
+				case KEY_LEFT: // move the selector to the left io currentposition.x - 1
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X -1,CSelector_GetPosition(GameSelector).Y);
 					break;
-				case SDLK_r:
-				case SDLK_RIGHT:
+				case KEY_RIGHT:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X +1,CSelector_GetPosition(GameSelector).Y);
 					break;
-				case SDLK_u:
-				case SDLK_UP:
+				case KEY_UP:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X,CSelector_GetPosition(GameSelector).Y-1);
 					break;
-				case SDLK_d:
-				case SDLK_DOWN:
+				case KEY_DOWN:
 					if (!PrintFormShown)
 						CSelector_SetPosition(GameSelector, CSelector_GetPosition(GameSelector).X,CSelector_GetPosition(GameSelector).Y+1);
 					break;
-				case SDLK_b:
-				case SDLK_c: // deselect selection
+				case KEY_B:
 					if (!PrintFormShown && GameSelector->HasSelection)
 					{
 						CPeg_SetAnimPhase(CBoardParts_GetPart(BoardParts,CSelector_GetSelection(GameSelector).X,CSelector_GetSelection(GameSelector).Y),0);
 						CSelector_DeSelect(GameSelector);
 					}
 					break;
-				case SDLK_s:
-				case SDLK_ESCAPE: // select = quit to title
+				case KEY_SELECT: // select = quit to title
 					Mix_HaltChannel(-1);
 					GameState = GSTitleScreenInit;
 					PrintFormShown = false;
 					break;
-				case SDLK_a:
-				case SDLK_x:
+				case KEY_A:
 					if(PrintFormShown)
 					{
 						GameState=GSTitleScreenInit;
@@ -569,19 +563,16 @@ void TitleScreen()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
-				case SDLK_q:
+				case KEY_QUIT:
 					GameState = GSQuit;
 					break;
-				case SDLK_d:
-				case SDLK_DOWN:
+				case KEY_DOWN:
 					CMainMenu_NextItem(Menu);
 					break;
-				case SDLK_u:
-				case SDLK_UP:
+				case KEY_UP:
 					CMainMenu_PreviousItem(Menu);
 					break;
-				case SDLK_a:
-				case SDLK_x:
+				case KEY_A:
 					// set the gamestate according to the menu selection
 					Mix_PlayChannel(-1,Sounds[SND_GOOD],0);
 					switch(CMainMenu_GetSelection(Menu))
@@ -595,9 +586,6 @@ void TitleScreen()
 						case 3:
 							GameState = GSQuit;
 					}
-					break;
-				case SDLK_ESCAPE:
-					GameState = GSQuit;
 					break;
 				default:
 					break;
@@ -631,19 +619,16 @@ void DifficultySelect()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
-				case SDLK_q:
+				case KEY_QUIT:
 					GameState = GSQuit;
 					break;
-				case SDLK_s:
-				case SDLK_ESCAPE:
+				case KEY_SELECT:
 					GameState = GSTitleScreenInit;
 					break;
-				case SDLK_a:
-				case SDLK_x:
+				case KEY_A:
 					GameState = GSGameInit;
 					break;
-				case SDLK_l:
-				case SDLK_LEFT: // Change difficluly one lower if we pressed left
+				case KEY_LEFT: // Change difficluly one lower if we pressed left
 					if(Difficulty == VeryHard)
 					{
 						Difficulty = Hard;
@@ -662,8 +647,7 @@ void DifficultySelect()
 								if(Difficulty == VeryEasy)
 									Difficulty = VeryHard;
 					break;
-				case SDLK_r:
-				case SDLK_RIGHT: // change difficulty one higher
+				case KEY_RIGHT: // change difficulty one higher
 					if(Difficulty == VeryEasy)
 					{
 						Difficulty = Easy;
@@ -734,13 +718,11 @@ void Credits()
 		if (Event.type == SDL_KEYDOWN)
 			switch (Event.key.keysym.sym)
 			{
-				case SDLK_q:
+				case KEY_QUIT:
 					GameState = GSQuit;
 					break;
-				case SDLK_a:
-				case SDLK_b:
-				case SDLK_c:
-				case SDLK_x:
+				case KEY_A:
+				case KEY_B:
 					GameState = GSTitleScreenInit;
 					break;
 				default:
@@ -750,24 +732,94 @@ void Credits()
 	SDL_BlitSurface(IMGCredits,NULL,Buffer,NULL);
 }
 
+void HandleFPS()
+{
+	if(!ShowFps)
+		return;
+	FrameCount++;
+	char Text[100];
+	sprintf(Text, "FPS:%d", LastFps);
+    SDL_Color Col = {0, 0, 0, 255};
+	SDL_Surface *Tmp = TTF_RenderText_Solid(font, Text, Col);
+	boxRGBA(Screen,0,0,Tmp->w + 6, Tmp->h + 6,255,255,255,255);
+	SDL_Rect Dst;
+	Dst.x = 3;
+	Dst.y = 3;
+	Dst.w = Tmp->w;
+	Dst.h = Tmp->h;
+	SDL_BlitSurface(Tmp, NULL, Screen, &Dst);
+	SDL_FreeSurface(Tmp);
+	if(SDL_GetTicks() - FrameTicks >= 1000)
+	{
+		LastFps = FrameCount;
+		FrameCount = 0;
+		FrameTicks = SDL_GetTicks();
+	}
+}
+
 // Start of the program, should be obvious what happens here
 int main(int argv, char** args)
 {
+	for (int i=0; i < argv; i++)
+    {
+        
+        if(strcasecmp(args[i], "-nd") == 0)
+            noDelay = true;
+        if(strcasecmp(args[i], "-fps") == 0)
+            ShowFps = true;
+        if(strcasecmp(args[i], "-f") == 0)
+            fullscreen = true;
+        if(strcasecmp(args[i], "-s2") == 0)
+        {
+            WINDOW_WIDTH = ORIG_WINDOW_WIDTH * 2;
+            WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT * 2;
+        }
+
+        if(strcasecmp(args[i], "-s3") == 0)
+        {
+            WINDOW_WIDTH = ORIG_WINDOW_WIDTH * 3;
+            WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT * 3;
+        }
+
+        if(strcasecmp(args[i], "-s4") == 0)
+        {
+            WINDOW_WIDTH = ORIG_WINDOW_WIDTH * 4;
+            WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT * 4;
+        }
+
+        if(strcasecmp(args[i], "-s5") == 0)
+        {
+            WINDOW_WIDTH = ORIG_WINDOW_WIDTH * 5;
+            WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT * 5;
+        }
+    }
+
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) == 0)
 	{
 		printf("SDL Succesfully initialized\n");
-		Uint32 flags = SDL_HWSURFACE;
-		#ifdef FUNKEY
-			flags |= SDL_FULLSCREEN;
+		#if FUNKEY
+			fullscreen = true;
 		#endif
-        Screen = SDL_SetVideoMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32, flags);
+		Uint32 flags = SDL_SWSURFACE;
+		if (fullscreen)
+		{
+			WINDOW_WIDTH = 0;
+			WINDOW_HEIGHT = 0;
+			flags |= SDL_FULLSCREEN;
+		}
+        
+        Screen = SDL_SetVideoMode( WINDOW_WIDTH, WINDOW_HEIGHT,0, flags);
 		if(Screen)
 		{
+			WINDOW_WIDTH = Screen->w;
+			WINDOW_HEIGHT = Screen->h;
 		    printf("Succesfully Set %dx%dx32\n",WINDOW_WIDTH, WINDOW_HEIGHT);
-			Buffer = SDL_CreateRGBSurface(SDL_HWSURFACE, WINDOW_WIDTH, WINDOW_HEIGHT, 32, Screen->format->Rmask, Screen->format->Gmask, Screen->format->Bmask, Screen->format->Amask);
+			SDL_Surface * tmp = SDL_CreateRGBSurface(SDL_SWSURFACE, ORIG_WINDOW_WIDTH, ORIG_WINDOW_HEIGHT, 0, Screen->format->Rmask, Screen->format->Gmask, Screen->format->Bmask, Screen->format->Amask);
+			Buffer = SDL_DisplayFormat(tmp);
+			SDL_FreeSurface(tmp);
 			if(Buffer)
 			{
-				printf("Succesfully Created %dx%dx32 Buffer\n", WINDOW_WIDTH, WINDOW_HEIGHT);
+				printf("Succesfully Created %dx%dx32 Buffer\n", ORIG_WINDOW_WIDTH, ORIG_WINDOW_HEIGHT);
 				SDL_ShowCursor(SDL_DISABLE);
 				{
 					if (Mix_OpenAudio(44100,AUDIO_S16,MIX_DEFAULT_CHANNELS,1024) < 0)
@@ -820,9 +872,29 @@ int main(int argv, char** args)
 									default:
 										break;
 								}
-								SDL_BlitSurface(Buffer, NULL, Screen, NULL);								
+								if ((WINDOW_WIDTH != ORIG_WINDOW_WIDTH) || (WINDOW_HEIGHT != ORIG_WINDOW_HEIGHT))
+								{
+									double wscale = (double)WINDOW_WIDTH / ORIG_WINDOW_WIDTH;
+									if(ORIG_WINDOW_HEIGHT * wscale > WINDOW_HEIGHT)
+										wscale = (double)WINDOW_HEIGHT / ORIG_WINDOW_HEIGHT;
+									SDL_Rect dst;
+									dst.x = (WINDOW_WIDTH - (ORIG_WINDOW_WIDTH * wscale)) / 2;
+									dst.y = (WINDOW_HEIGHT - (ORIG_WINDOW_HEIGHT * wscale)) / 2,
+									dst.w = ORIG_WINDOW_WIDTH * wscale;
+									dst.h = ORIG_WINDOW_HEIGHT * wscale;
+									SDL_Surface *ScreenBufferZoom = zoomSurface(Buffer,wscale,wscale,0);
+									SDL_BlitSurface(ScreenBufferZoom,NULL,Screen,&dst);
+									SDL_FreeSurface(ScreenBufferZoom);
+								}
+								else
+								{
+									SDL_BlitSurface(Buffer, NULL, Screen, NULL);
+								}
+								HandleFPS();
 								SDL_Flip(Screen);
-								SDL_framerateDelay(&FpsManager);
+								if(!noDelay)
+									SDL_framerateDelay(&FpsManager);
+
 							}
 							CMainMenu_Destroy(Menu);
 							CBoardParts_Destroy(BoardParts);

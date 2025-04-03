@@ -35,8 +35,8 @@ typedef struct CSelector CSelector;
 #define GSCreditsInit (GSCredits + GSInitDiff)
 
 // window size
-#define WINDOW_WIDTH 240
-#define WINDOW_HEIGHT 240
+#define ORIG_WINDOW_WIDTH 240
+#define ORIG_WINDOW_HEIGHT 240
 
 //game defines
 #define NrOfRows 9
@@ -53,6 +53,47 @@ typedef struct CSelector CSelector;
 #define SND_START 3
 #define SND_WINNER 4
 #define SND_LOSER 5
+
+#if defined(FUNKEY)
+#define KEY_LEFT SDLK_l
+#define KEY_RIGHT SDLK_r
+#define KEY_UP SDLK_u
+#define KEY_DOWN SDLK_d
+#define KEY_A SDLK_a
+#define KEY_B SDLK_b
+#define KEY_X SDLK_x
+#define KEY_Y SDLK_y
+#define KEY_L1 SDLK_m
+#define KEY_R1 SDLK_n
+#define KEY_QUIT SDLK_q
+#define KEY_SELECT SDLK_s
+#elif defined(MIYOO)
+#define KEY_UP SDLK_UP
+#define KEY_DOWN SDLK_DOWN
+#define KEY_LEFT SDLK_LEFT
+#define KEY_RIGHT SDLK_RIGHT
+#define KEY_A SDLK_SPACE
+#define KEY_B SDLK_LCTRL
+#define KEY_Y SDLK_LALT
+#define KEY_X SDLK_LSHIFT
+#define KEY_L1 SDLK_e
+#define KEY_R1 SDLK_t
+#define KEY_QUIT SDLK_ESCAPE
+#define KEY_SELECT SDLK_RCTRL
+#else
+#define KEY_LEFT SDLK_LEFT
+#define KEY_RIGHT SDLK_RIGHT
+#define KEY_UP SDLK_UP
+#define KEY_DOWN SDLK_DOWN
+#define KEY_A SDLK_SPACE
+#define KEY_B SDLK_b
+#define KEY_X SDLK_x
+#define KEY_Y SDLK_y
+#define KEY_L1 SDLK_PAGEDOWN
+#define KEY_R1 SDLK_PAGEUP
+#define KEY_QUIT SDLK_q
+#define KEY_SELECT SDLK_ESCAPE
+#endif
 
 extern SDL_Surface *IMGCredits,*IMGPeg,*IMGBackground,*IMGVeryEasy1,*IMGEasy1,*IMGHard1,*IMGVeryHard1,*IMGEasyInfo,*IMGVeryEasyInfo,*IMGHardInfo,*IMGVeryHardInfo;
 extern int Difficulty;
@@ -76,4 +117,12 @@ extern bool PrintFormShown;
 //titlescreen
 extern CMainMenu* Menu;
 
+extern int WINDOW_WIDTH;
+extern int WINDOW_HEIGHT;
+extern Uint32 FrameTicks;
+extern Uint32 FrameCount;
+extern Uint32 LastFps;
+extern bool ShowFps;
+extern bool noDelay;
+extern bool fullscreen;
 #endif

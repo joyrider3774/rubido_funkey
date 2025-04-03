@@ -28,5 +28,14 @@ FPSmanager FpsManager;
 CSelector *GameSelector;
 bool PrintFormShown = false;
 
+int WINDOW_WIDTH = ORIG_WINDOW_WIDTH;
+int WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT;
+Uint32 FrameTicks = 0;
+Uint32 FrameCount = 0;
+Uint32 LastFps = 0;
+bool ShowFps = false;
+bool noDelay = false;
+bool fullscreen = false;
+
 //titlescreen
 CMainMenu* Menu;
