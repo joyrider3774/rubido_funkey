@@ -792,6 +792,14 @@ int main(int argv, char** args)
             WINDOW_WIDTH = ORIG_WINDOW_WIDTH * 5;
             WINDOW_HEIGHT = ORIG_WINDOW_HEIGHT * 5;
         }
+
+		if(strcasecmp(args[i], "-w") == 0)
+			if(i+1 < argv)
+				WINDOW_WIDTH = atoi(args[i+1]);
+		
+		if(strcasecmp(args[i], "-h") == 0)
+			if(i+1 < argv)
+				WINDOW_HEIGHT = atoi(args[i+1]);
     }
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) == 0)
